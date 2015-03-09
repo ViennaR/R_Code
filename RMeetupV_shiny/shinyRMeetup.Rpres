@@ -1,0 +1,71 @@
+A quick introduction to web applications in R with shiny
+========================================================
+author: Robert Ferstl
+date: October 8, 2013
+
+Setup
+========================================================
+
+Presentation was created with: 
+
+- **RStudio 0.98.313** (Preview release)
+  - http://www.rstudio.com/ide/download/preview
+  - HTML 5 presentations: *New File - R Presentation*
+
+Packages used:
+
+- **shiny 0.7.0**, **ggplot2 0.9.3.1**, **rCharts 0.3.51**
+
+```{r eval=FALSE}
+require(devtools)
+install_github('rCharts', 'ramnathv')
+```
+
+Let's get started
+========================================================
+
+```{r eval=FALSE}
+library(shiny)
+
+# Print the directory containing the code for all examples
+system.file("examples", package="shiny")
+
+# Run one of the examples
+runExample("01_hello")
+```
+
+Shiny tutorial
+========================================================
+
+- http://rstudio.github.io/shiny/tutorial/
+- Especially, read the part on **Understanding reactivity**! 
+
+
+![alt text](http://rstudio.github.io/shiny/tutorial/reactivity_diagrams/roles.png)
+
+Scoping
+========================================================
+
+- http://rstudio.github.io/shiny/tutorial/#scoping
+
+- **Objects visible across all sessions**
+  - e.g., load a big data set or a non-reactive utility function by placing it in *shiny.R* but outside *shinyServer()*
+
+- **Global objects**
+  - Objects defined in *global.R* are similar to those defined in *server.R* outside *shinyServer()*, with one important difference: they are also visible to the code in *ui.R*. 
+  
+Dynamic input lists and rCharts
+========================================================  
+
+- suppose we have a simple csv file with closing prices of different stocks
+- shiny App should load the csv file an create a drop down menu with the available symbols
+
+- finally, we want to add a plot made with **rCharts**
+  - see http://ramnathv.github.io/rCharts/ at the end there is a section on *Shiny Application*
+  - **rChart** and **showOutput** will do the trick  
+  
+
+
+
+
+  
