@@ -1,0 +1,199 @@
+#+TITLE:       Vectorization
+#+DATE:        February 11th 2014
+#+AUTHOR:      Fabio Leimgruber
+#+EMAIL:
+#+PROPERTY: header-args:python :session *Python*
+#+PROPERTY: header-args:R :session *R* :cache yes :results silent :tangle yes
+#+OPTIONS: H:2 tex:t latex:nil toc:nil num:nil reveal_mathjax:t reveal_width:800 reveal_height:600
+# # reveal_center:t
+#+REVEAL_THEME: moon
+#+REVEAL_EXTRA_CSS: ./font-awesome/css/font-awesome.min.css ./line_spacing.css
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.6
+#+REVEAL_MAX_SCALE: 1.7
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,smaller]
+#+LATEX_CMD: pdflatex-shell-escape
+#+BEAMER_THEME: default
+#+LATEX_HEADER: \mode<beamer>{\usetheme{CambridgeUS}}
+#+LATEX_HEADER: \usepackage{minted}
+#+COLUMNS: %45ITEM %10BEAMER_ENV(Env) %10BEAMER_ACT(Act) %4BEAMER_COL(Col) %8BEAMER_OPT(Opt)
+
+#+BEGIN_LaTeX
+\AtBeginSubsection[]{
+\begin{frame}<beamer>
+\frametitle{Outline}
+\tableofcontents[currentsubsection]
+\end{frame}}
+#+END_LaTeX
+
+* Introduction
+
+** Vectorization
+- Functions take vectors as arguments
+- Key concept in R
+- What others say (Burns Statistics):
+  - "The essence of vectorization is simplicity"
+  - "If you are not getting it, relax and let it sink in slowly"
+
+- What's it like: Element wise operations
+#+BEGIN_SRC R
+  x <- c(1, 2, 3, 4, 5)
+  x + 4
+  x * 2
+  x ^ 3
+#+END_SRC
+
+* Benefits
+
+** Avoiding for loops
+- Taken from "The R Inferno" Patrick Burns (2011)
+#+BEGIN_SRC R
+  x <- c(1, 2, 3)
+  
+  lsum <- 0
+  for(i in 1:length(x)) {
+      lsum <- lsum + log(x[i])
+  }
+  
+  log(x)
+  sum(log(x))
+#+END_SRC
+
+** Conditional operations
+#+BEGIN_SRC R
+  ifelse(x >= 3, x, NA)
+  ifelse(x >= 3, x^2, NA)
+  3 * ifelse(x >= 3, x, NA)
+#+END_SRC
+
+** Indexing Vectors
+
+#+BEGIN_SRC R
+  x <- (1:5)^2
+  x[c(1, 3, 5)]
+  x[c(-2, -4)]
+  x[c(TRUE, FALSE, TRUE, FALSE, TRUE)]
+#+END_SRC
+
+#+BEGIN_SRC R
+  a <- 1:10
+  b <- 10:20
+  b[which(a %% 2 == 0)]
+  a[3:6]
+#+END_SRC
+
+** Indexing data frames
+#+BEGIN_SRC R
+  set.seed(1)
+  a_data_frame <- data.frame(
+    x = letters[1:5],
+    y = rnorm(5),
+    z = runif(5) > 0.5
+  )
+  a_data_frame[c(2, 3), -3]
+#+END_SRC
+
+* Caveats
+** Recycling
+- Taken from "The R Inferno" Patrick Burns (2011)
+#+BEGIN_SRC R
+  c(1, 4) + 1:10 # Recycling
+  c(1, 2, 3) + 1:10 # Not Recycling
+#+END_SRC
+
+- Thinking about it: This makes the following work
+#+BEGIN_SRC R
+  x <- c(1, 2, 3, 4, 5)
+  x + 4
+  x * 2
+  x ^ 3
+#+END_SRC
+
+** Vector arguments
+#+BEGIN_SRC R
+  max(2, -100, -4, 3, -230, 5) # vector args? 
+  max(c(1, 2, 3))
+  mean(2, -100, -4, 3, -230, 5) # vector args?!
+  mean(c(2, -100, -4, 3, -230, 5)) # yep.
+  max(1:5, 3)
+#+END_SRC
+
+* Roll your own!
+
+** Use built-in vectorization
+- Easy to create vectorized functions yourself: Use built-ins
+#+BEGIN_SRC R
+  log_square_sum <- function(logargs, squareargs){
+      log(logargs) + squareargs^2
+  }
+  log_square_sum(1:3, 2:4)
+#+END_SRC
+- Vectorizing possible on most operators ==, +, ^, ...
+- Vectorized functions are funky
+#+BEGIN_SRC R
+  firstnames <- c("Joe", "William", "Jack", "Averell")
+  lastname <- c("Dalton")
+  paste(firstnames, lastname)
+#+END_SRC
+
+** Super vectorize me
+- What if you have to provide a single element?
+#+BEGIN_SRC R
+  single_element <- function(element){
+      switch(element,
+             good = "nice!",
+             bad = "bah!",
+             "so-so..."
+             )
+  }
+  single_element(c("good", "good", "bad", "dunno"))
+#+END_SRC
+- Vectorize me!
+#+BEGIN_SRC R
+  vector_element <- Vectorize(single_element)
+  vector_element(c("good", "good", "bad", "dunno"))
+#+END_SRC
+- Vectorize is a wrapper for =mapply= (check out =*apply=!)
+
+* Performance
+#+BEGIN_SRC R
+  time1 <- proc.time()
+  res1 <- sapply(1:1000000, exp)
+  time2 <- proc.time()
+  time2 - time1
+#+END_SRC
+
+#+BEGIN_SRC R
+  time1 <- proc.time()
+  res2 <- exp(1:1000000)
+  time2 <- proc.time()
+  time2 - time1
+#+END_SRC
+
+#+BEGIN_SRC R
+  all(res1 == res2)
+#+END_SRC
+
+* Further Reading
+- Burns Statistics: "The R inferno"
+- Richard Cotton: "Learning R"
+
+* Other
+Code safety?
+#+begin_src R
+  f <- function(x, c) return((x + c)^2)
+  f(1:3, 0)
+  f(1:3, 1)
+  f(1:3,1:3)
+#+end_src
+
+Functionism
+#+BEGIN_SRC R
+  '+'(1:3, 5)
+#+END_SRC
+
+* COMMENT local setup                                              :noexport:
+# Local Variables:
+# org-latex-pdf-process: ("latexmk -pdflatex=pdflatex --shell-escape -pdf %f")
+# End:
