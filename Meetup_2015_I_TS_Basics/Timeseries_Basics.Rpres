@@ -1,0 +1,298 @@
+Timeseries basics  
+========================================================
+author: Walter Djuric
+type: title  
+font-family: 'Arial'
+date: 03/03/2015  
+autosize: true 
+
+   
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=80)
+```
+*** 
+**ViennaR - Meetup 2015/I**  
+***
+![alt text](figures/Rlogo.png)
+***  
+
+Overview
+========================================================
+type:prompt 
+width: 1440
+height: 900
+
+- timeseries (ts, zoo/xts)  
+- basic stuff (create, plot)  
+- financial data     
+
+Timeseries basics and packages 
+========================================================
+type: section 
+
+For an overview of available packages ...  
+see CRAN task view:   
+http://cran.r-project.org/web/views/TimeSeries.html 
+
+We will have a quick look at: 
+- base R `ts` objects 
+- `zoo` & `xts` class/package and their use for     
+- financial timeseries  
+
+Timeseries in base R 
+========================================================
+is an array of values (the data) paired with an ordering index (usually time). 
+
+Base R timeseries object: 
+
+- ts 
+```{r, echo=TRUE}
+(z <- ts(1:10, frequency = 4, start = c(2013, 2))) 
+```
+
+Multiple timeseries 
+========================================================
+```{r, echo = TRUE}
+head(dat <- matrix(rnorm(48), 12,3), n = 3) # the data 
+mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
+.preformat.ts(mz)[1:3,] 
+```
+
+plot.ts 
+========================================================
+```{r, echo = TRUE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+plot(mz, lty=1:3, plot.type = "single") 
+```
+
+In need of new class(es)/package(s)   
+========================================================
+type: subsection 
+
+The weakness of base R timeseries class lies in the limited scope of its methods.   
+So some folks (A. Zeiles, G. Grothendieck, J. A. Ryan, J. M. Ulrich) decided to build package(s). 
+  
+**zoo** and **xts** ended up as much more powerful alternatives with respect to available methods etc.  to base R `ts`.   
+So let's have a look. 
+
+
+zoo & xts 
+========================================================
+type: section  
+
+**xts** is a superset of the **zoo** package i.e. xts can do everything that zoo can do!  
+Details are available in the package vignette ...   
+
+```{r, echo = TRUE}
+require(xts)  
+
+#vignette("xts")  
+````
+
+========================================================
+type: subsection  
+```{r}
+x <- 1:10; dt <- Sys.Date()+c(1:10)
+ts <- xts(x, dt)
+class(ts)
+```
+The data `x` is epxected to be `numeric`.  
+The time vector (or index) `dt` must be a supported date or time class: `Date, POSIXct, chron`. 
+
+Multi-column data
+========================================================
+type: subsection  
+
+```{r}
+data(sample_matrix)  
+head(sample_matrix, 3)
+class(sample_matrix)
+```
+
+========================================================
+type: subsection  
+#incremental: true
+
+```{r}
+str(sample_matrix)
+```
+
+```{r}
+xts_mtx <- as.xts(sample_matrix, descr = 'new xts obj')  
+```
+
+========================================================
+type: subsection  
+
+```{r}
+str(xts_mtx)
+```
+
+Plotting timeseries 
+========================================================
+type: subsection 
+
+> Simple xts  plot   
+
+```{r, echo = FALSE}
+plot(xts_mtx[ , 4], main = "Simple plot Close prices", 
+     cex.main = 2.0)
+```
+*** 
+> Fancy xts plot 
+
+```{r, echo = FALSE}
+plot(xts_mtx[1:31, ], main="Candle plot", cex.main=2.0, type="candles")
+```
+
+Financial timeseries  
+========================================================
+type: section   
+
+Main packages ...  
+see CRAN task view:  
+http://cran.r-project.org/web/views/Finance.html   
+
+Finally we will have a closer look into the **quantmod** package  as well. 
+
+quantmod 
+========================================================
+type: subsection 
+title: false 
+
+```{r}
+library(quantmod) 
+OMV <- getSymbols("OMV.VI", auto.assign = FALSE) #make sure internet connection is available 
+``` 
+
+```{r, echo = TRUE, width= 100}
+class(OMV)
+```
+
+========================================================
+type: subsection 
+
+```{r}
+tail(OMV, 3)
+```
+
+quantmod plot 
+========================================================
+type: subsection 
+
+```{r, echo=TRUE}
+png(filename = "./figures/OMV_chart.png", width = 1440, height = 900)
+chartSeries(OMV, subset="2013::2013", 
+            name = "OMV ohlc prices", 
+            show.grid = TRUE,  
+            minor.ticks = TRUE,  
+            color.vol = TRUE)  
+dev.off()  
+```  
+
+quantmod plot cont'd
+========================================================
+type: subsection 
+
+![alt text](figures/OMV_chart.png)
+
+Add an Indicator (e.g. Boillinger Bands)
+========================================================
+type: subsection
+
+```{r, echo=FALSE}
+chartSeries(OMV, subset="2013::2013", 
+            name = "OMV ohlc prices", 
+            show.grid = TRUE, minor.ticks = TRUE, color.vol = TRUE, TA="addBBands()")
+```
+
+TTR for quantmod 
+========================================================
+type: section 
+
+```{r}
+require(TTR)
+``` 
+`quantmod` depends on `TTR` - which provides numerous indicators that can be added to our plots e.g.:  
+
+- Moving Averages (SMA, EMA, etc.)
+- RSI 
+- MACD 
+- Stochastics 
+- Stock symbols 
+- etc.  
+
+reChart and add more indicators 
+========================================================
+type: subsection  
+
+```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+reChart(subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
+```  
+***
+```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+chartSeries(OMV, subset="2014-11-30::2015-02-28", 
+            name = "OMV ohlc prices", 
+            show.grid = FALSE, minor.ticks = TRUE, color.vol = TRUE, 
+            TA = "addMACD(); addEMA(); addBBands()", theme=chartTheme("white") )  
+```
+
+Last (not least) a ggplot2 graph
+========================================================
+type: subsection  
+
+```{r basicconsole, comment=""}
+#Create prices and volumes  
+df <- OMV[ , c("OMV.VI.Adjusted", "OMV.VI.Volume")]
+names(df) <- c("price", "vol")
+#Create return col 
+df$ret <- diff(log(df[, 1])) 
+df <- df[-1, ]#loose the first data-point as return = 0 
+head(df, 4)
+```
+
+
+ggplot2 cont'd 
+========================================================
+type: subsection  
+
+Define return buckets - we utilize the `cut` function for that   
+```{r, longanalysis, cache = TRUE}
+df$bucket <- cut(abs(df$ret), breaks = c(0, 0.03, 0.06, 0.25), 
+                  include.lowest = TRUE) 
+#Add mean column 
+df$avg <- NA 
+for ( i in 1:3 ) {
+  group <- which( df$bucket == i ) 
+  if ( length(group) > 0 ) {
+    df$avg[group] <- mean(df$vol[group])
+  }
+} 
+```
+
+========================================================
+type: subsection  
+
+```{r, echo=FALSE}
+library(ggplot2) 
+cat("ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(aes(xintercept = avg), ... ")
+```
+
+```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + 
+  geom_vline(aes(xintercept = avg), linetype="dashed", size=1)
+```
+
+
+Thank you!  
+========================================================
+type: prompt 
+
+Hope to see you (again) at the next Meetup!  
+
+
+
+
+
+
+
+
