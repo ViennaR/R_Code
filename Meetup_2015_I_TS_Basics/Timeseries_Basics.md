@@ -70,9 +70,9 @@ head(dat <- matrix(rnorm(48), 12,3), n = 3) # the data
 
 ```
            [,1]       [,2]       [,3]
-[1,] -0.2031301  0.8639973  0.4014161
-[2,]  0.4523303 -2.9499555 -0.9666881
-[3,] -0.5804316 -1.2707742 -1.3594417
+[1,]  0.5843825  2.3220117  0.9607842
+[2,]  1.6835275 -0.2930287 -1.1898761
+[3,] -0.3142596 -0.8867444 -1.1199790
 ```
 
 ```r
@@ -82,19 +82,20 @@ mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
 
 ```
            Series 1   Series 2   Series 3
-Jan 2010 -0.2031301  0.8639973  0.4014161
-Feb 2010  0.4523303 -2.9499555 -0.9666881
-Mar 2010 -0.5804316 -1.2707742 -1.3594417
+Jan 2010  0.5843825  2.3220117  0.9607842
+Feb 2010  1.6835275 -0.2930287 -1.1898761
+Mar 2010 -0.3142596 -0.8867444 -1.1199790
 ```
 
 plot.ts 
 ========================================================
 
-```r
-plot(mz, lty=1:3, plot.type = "single") 
+```
+plot(mz, lty=1:3, plot.type = 'single')
 ```
 
-<img src="Timeseries_Basics-figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="1440px" />
+
+![simple_ts_plot](figures/plot_ts.png)
 
 In need of new class(es)/package(s)   
 ========================================================
@@ -105,7 +106,6 @@ So some folks (A. Zeiles, G. Grothendieck, J. A. Ryan, J. M. Ulrich) decided to 
   
 **zoo** and **xts** ended up as much more powerful alternatives with respect to available methods etc.  to base R `ts`.   
 So let's have a look. 
-
 
 zoo & xts 
 ========================================================
@@ -209,14 +209,14 @@ type: subsection
 
 
 
-![alt text](figures/simple.png) "Simple chart plot"
+![Close_prices](figures/simple.png) 
 
 *** 
 > Fancy xts plot 
 
 
 
-![alt text](figures/candles.png) "Candle stick chart"
+![Candlesticks](figures/candles.png)
 
 Financial timeseries  
 ========================================================
@@ -292,8 +292,8 @@ Add an Indicator (e.g. Boillinger Bands)
 type: subsection
 
 
-![OMV_BBands](figures/OMV_w_BBands.png)
 
+![OMV_BBands](./figures/OMV_w_BBands.png)
 
 TTR for quantmod 
 ========================================================
@@ -320,11 +320,11 @@ Add more indicators
 type: subsection  
 
 
-![OMV_more_Ind](figures/OMV_more_indicators1.png)
+![More_price_indicators](figures/OMV_more_indicators1.png)
 
 ***
 
-![alt text](figures/OMV_more_indicators2.png)
+![Even_more_price_indicators](figures/OMV_more_indicators2.png)
 
 Last (not least) a ggplot2 graph
 ========================================================
@@ -378,7 +378,7 @@ ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(ae
 
 
 
-![alt text](figures/ggplot.png)
+![ggplot_figure](figures/ggplot.png)
 
 Thank you!  
 ========================================================

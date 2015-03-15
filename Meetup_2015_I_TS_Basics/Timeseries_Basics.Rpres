@@ -65,9 +65,15 @@ mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
 
 plot.ts 
 ========================================================
-```{r, echo = TRUE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+```{r, echo = FALSE}
+cat("plot(mz, lty=1:3, plot.type = 'single')")
+```
+```{r, echo = FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+png("./figures/plot_ts.png", width=1440, height=900)
 plot(mz, lty=1:3, plot.type = "single") 
 ```
+
+![simple_ts_plot](figures/plot_ts.png)
 
 In need of new class(es)/package(s)   
 ========================================================
@@ -78,7 +84,6 @@ So some folks (A. Zeiles, G. Grothendieck, J. A. Ryan, J. M. Ulrich) decided to 
   
 **zoo** and **xts** ended up as much more powerful alternatives with respect to available methods etc.  to base R `ts`.   
 So let's have a look. 
-
 
 zoo & xts 
 ========================================================
@@ -143,7 +148,7 @@ plot(xts_mtx[ , 4], main = "Simple plot Close prices",
      cex.main = 2.0)
 ```
 
-![alt text](figures/simple.png) "Simple chart plot"
+![Close_prices](figures/simple.png) 
 
 *** 
 > Fancy xts plot 
@@ -153,7 +158,7 @@ png("./figures/candles.png", width=1440, height=900)
 plot(xts_mtx[1:31, ], main="Candle plot", cex.main=2.0, type="candles")
 ```
 
-![alt text](figures/candles.png) "Candle stick chart"
+![Candlesticks](figures/candles.png)
 
 Financial timeseries  
 ========================================================
@@ -215,8 +220,8 @@ chartSeries(OMV, subset="2013::2013",
             name = "OMV ohlc prices", 
             show.grid = TRUE, minor.ticks = TRUE, color.vol = TRUE, TA="addBBands()")
 ```
-![OMV_BBands](figures/OMV_w_BBands.png)
 
+![OMV_BBands](./figures/OMV_w_BBands.png)
 
 TTR for quantmod 
 ========================================================
@@ -248,7 +253,7 @@ png("./figures/OMV_more_indicators1.png", width = 1440, height = 900)
 chartSeries(OMV, 
             subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
 ```  
-![OMV_more_Ind](figures/OMV_more_indicators1.png)
+![More_price_indicators](figures/OMV_more_indicators1.png)
 
 ***
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
@@ -259,7 +264,7 @@ chartSeries(OMV, subset="2014-11-30::2015-02-28",
             TA = "addMACD(); addEMA(); addBBands()", 
             theme=chartTheme("white") ) 
 ```
-![alt text](figures/OMV_more_indicators2.png)
+![Even_more_price_indicators](figures/OMV_more_indicators2.png)
 
 Last (not least) a ggplot2 graph
 ========================================================
@@ -307,7 +312,7 @@ ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) +
   geom_vline(aes(xintercept = avg), linetype="dashed", size=1)
 ```
 
-![alt text](figures/ggplot.png)
+![ggplot_figure](figures/ggplot.png)
 
 Thank you!  
 ========================================================
