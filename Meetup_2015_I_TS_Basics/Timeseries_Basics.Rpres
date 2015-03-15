@@ -203,7 +203,7 @@ quantmod plot cont'd
 ========================================================
 type: subsection 
 
-![alt text](figures/OMV_chart.png)
+![OMV_chart](figures/OMV_chart.png)
 
 Add an Indicator (e.g. Boillinger Bands)
 ========================================================
@@ -248,7 +248,7 @@ png("./figures/OMV_more_indicators1.png", width = 1440, height = 900)
 chartSeries(OMV, 
             subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
 ```  
-![OMV_more_Ind](figures/OMV_more_indicators1.png) "add some indicator"
+![OMV_more_Ind](figures/OMV_more_indicators1.png)
 
 ***
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
@@ -271,7 +271,7 @@ df <- OMV[ , c("OMV.VI.Adjusted", "OMV.VI.Volume")]
 names(df) <- c("price", "vol")
 #Create return col 
 df$ret <- diff(log(df[ , 1]))
-df <- df[-1, ]#loose the first data-point as return is NA  
+df <- df[-1, ]#loose the first data-point as return is NA there   
 head(df, 4)
 ```
 
@@ -301,7 +301,7 @@ library(ggplot2)
 cat("ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(aes(xintercept = avg), ... ")
 ```
 
-```{r, echo=FALSE, fig.width=7,fig.height=3.5, out.width="1440px",height="900px"}
+```{r, echo=FALSE, fig.width=9,fig.height=4, dpi=300, out.width="1440px",height="900px"}
 png("./figures/ggplot.png", width=1440, height=900)
 ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + 
   geom_vline(aes(xintercept = avg), linetype="dashed", size=1)

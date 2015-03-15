@@ -70,9 +70,9 @@ head(dat <- matrix(rnorm(48), 12,3), n = 3) # the data
 
 ```
            [,1]       [,2]       [,3]
-[1,] -0.1795944 -0.7332891  0.9740385
-[2,]  0.3152956 -0.4031446 -0.4513895
-[3,]  1.3721964 -0.3035223 -0.1567037
+[1,] -0.2031301  0.8639973  0.4014161
+[2,]  0.4523303 -2.9499555 -0.9666881
+[3,] -0.5804316 -1.2707742 -1.3594417
 ```
 
 ```r
@@ -82,9 +82,9 @@ mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
 
 ```
            Series 1   Series 2   Series 3
-Jan 2010 -0.1795944 -0.7332891  0.9740385
-Feb 2010  0.3152956 -0.4031446 -0.4513895
-Mar 2010  1.3721964 -0.3035223 -0.1567037
+Jan 2010 -0.2031301  0.8639973  0.4014161
+Feb 2010  0.4523303 -2.9499555 -0.9666881
+Mar 2010 -0.5804316 -1.2707742 -1.3594417
 ```
 
 plot.ts 
@@ -285,7 +285,7 @@ quantmod plot cont'd
 ========================================================
 type: subsection 
 
-![alt text](figures/OMV_chart.png)
+![OMV_chart](figures/OMV_chart.png)
 
 Add an Indicator (e.g. Boillinger Bands)
 ========================================================
@@ -320,7 +320,7 @@ Add more indicators
 type: subsection  
 
 
-![OMV_more_Ind](figures/OMV_more_indicators1.png) "add some indicator"
+![OMV_more_Ind](figures/OMV_more_indicators1.png)
 
 ***
 
@@ -337,7 +337,7 @@ df <- OMV[ , c("OMV.VI.Adjusted", "OMV.VI.Volume")]
 names(df) <- c("price", "vol")
 #Create return col 
 df$ret <- diff(log(df[ , 1]))
-df <- df[-1, ]#loose the first data-point as return is NA  
+df <- df[-1, ]#loose the first data-point as return is NA there   
 head(df, 4)
 ```
 
