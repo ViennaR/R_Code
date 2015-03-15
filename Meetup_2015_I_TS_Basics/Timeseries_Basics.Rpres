@@ -16,10 +16,10 @@ options(width=80)
 ![Rlogo](figures/Rlogo.png)
 ***  
 
-Word from our Sponsors 
+Word from one of our Sponsors 
 ========================================================
-[height=4.5in]{R_User_Group_Welcome_Slide.pdf}
 
+![Revolution_slide](R_User_Group_Welcome_Slide.pdf)
 
 Overview
 ========================================================
@@ -89,7 +89,6 @@ Details are available in the package vignette ...
 
 ```{r, echo = TRUE}
 require(xts)  
-
 #vignette("xts")  
 ````
 
@@ -143,17 +142,18 @@ png("./figures/simple.png", width = 1440, height = 900)
 plot(xts_mtx[ , 4], main = "Simple plot Close prices", 
      cex.main = 2.0)
 ```
-![alt text](figures/simple.png)
+
+![alt text](figures/simple.png) "Simple chart plot"
 
 *** 
 > Fancy xts plot 
 
 ```{r, echo = FALSE}
-png("./figures/candles.png", width = 1440, height = 900)
+png("./figures/candles.png", width=1440, height=900)
 plot(xts_mtx[1:31, ], main="Candle plot", cex.main=2.0, type="candles")
 ```
 
-![alt text](figures/candles.png)
+![alt text](figures/candles.png) "Candle stick chart"
 
 Financial timeseries  
 ========================================================
@@ -175,7 +175,7 @@ library(quantmod)
 OMV <- getSymbols("OMV.VI", auto.assign = FALSE) #make sure internet connection is available 
 ``` 
 
-```{r, echo = TRUE, width= 100}
+```{r, echo = TRUE, width=100}
 class(OMV)
 ```
 
@@ -191,7 +191,7 @@ quantmod plot
 type: subsection 
 
 ```{r, echo=TRUE}
-png(filename = "./figures/OMV_chart.png", width = 1440, height = 900)
+png(filename = "./figures/OMV_chart.png", width=1440, height=900)
 chartSeries(OMV, subset="2013::2013", 
             name = "OMV ohlc prices", 
             show.grid = TRUE,  
@@ -210,7 +210,7 @@ Add an Indicator (e.g. Boillinger Bands)
 type: subsection
 
 ```{r, echo=FALSE}
-png("./figures/OMV_w_BBands.png", width = 1440, height = 900)
+png("./figures/OMV_w_BBands.png", width=1440, height=900)
 chartSeries(OMV, subset="2013::2013", 
             name = "OMV ohlc prices", 
             show.grid = TRUE, minor.ticks = TRUE, color.vol = TRUE, TA="addBBands()")
@@ -222,9 +222,14 @@ TTR for quantmod
 ========================================================
 type: section 
 
-```{r}
+```{r, echo = FALSE}
 require(TTR)
 ``` 
+```{r, echo = TRUE}
+library(TTR)
+```
+
+
 `quantmod` depends on `TTR` - which provides numerous indicators that can be added to our plots e.g.:  
 
 - Moving Averages (SMA, EMA, etc.)
@@ -239,14 +244,15 @@ Add more indicators
 type: subsection  
 
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
-png("./figures/OMV_more_indicators1.png")
+png("./figures/OMV_more_indicators1.png", width = 1440, height = 900)
 chartSeries(OMV, 
             subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
 ```  
-![OMV_more_Ind](figures/OMV_more_indicators1.png)
+![OMV_more_Ind](figures/OMV_more_indicators1.png) "add some indicator"
+
 ***
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
-png("./figures/OMV_more_indicators2.png")
+png("./figures/OMV_more_indicators2.png", width=1440, height=900)
 chartSeries(OMV, subset="2014-11-30::2015-02-28", 
             name = "OMV ohlc prices", 
             show.grid = FALSE, minor.ticks = TRUE, color.vol = TRUE, 
@@ -264,11 +270,10 @@ type: subsection
 df <- OMV[ , c("OMV.VI.Adjusted", "OMV.VI.Volume")]
 names(df) <- c("price", "vol")
 #Create return col 
-df$ret <- diff(log(df[, 1])) 
-df <- df[-1, ]#loose the first data-point as return = 0 
+df$ret <- diff(log(df[ , 1]))
+df <- df[-1, ]#loose the first data-point as return is NA  
 head(df, 4)
 ```
-
 
 ggplot2 cont'd 
 ========================================================
@@ -296,14 +301,13 @@ library(ggplot2)
 cat("ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(aes(xintercept = avg), ... ")
 ```
 
-```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
-png("./figures/ggplot.png", width = 1440, height = 900)
+```{r, echo=FALSE, fig.width=7,fig.height=3.5, out.width="1440px",height="900px"}
+png("./figures/ggplot.png", width=1440, height=900)
 ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + 
   geom_vline(aes(xintercept = avg), linetype="dashed", size=1)
 ```
+
 ![alt text](figures/ggplot.png)
-
-
 
 Thank you!  
 ========================================================
@@ -311,11 +315,9 @@ type: prompt
 
 Hope to see you (again) at the next Meetup!  
 
-
-```{r}
+```{r, echo=FALSE}
 dev.off()
 ```
-
 
 
 

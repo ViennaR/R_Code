@@ -14,10 +14,10 @@ autosize: true
 ![Rlogo](figures/Rlogo.png)
 ***  
 
-Word from our Sponsors 
+Word from one of our Sponsors 
 ========================================================
-[height=4.5in]{R_User_Group_Welcome_Slide.pdf}
 
+![Revolution_slide](R_User_Group_Welcome_Slide.pdf)
 
 Overview
 ========================================================
@@ -69,10 +69,10 @@ head(dat <- matrix(rnorm(48), 12,3), n = 3) # the data
 ```
 
 ```
-            [,1]          [,2]       [,3]
-[1,] -0.02863440 -0.2763432185  0.4306116
-[2,] -0.23692876 -1.2651817927 -2.3403424
-[3,]  0.07333624 -0.0006760617  0.3653112
+           [,1]       [,2]       [,3]
+[1,] -0.1795944 -0.7332891  0.9740385
+[2,]  0.3152956 -0.4031446 -0.4513895
+[3,]  1.3721964 -0.3035223 -0.1567037
 ```
 
 ```r
@@ -81,10 +81,10 @@ mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
 ```
 
 ```
-            Series 1      Series 2   Series 3
-Jan 2010 -0.02863440 -0.2763432185  0.4306116
-Feb 2010 -0.23692876 -1.2651817927 -2.3403424
-Mar 2010  0.07333624 -0.0006760617  0.3653112
+           Series 1   Series 2   Series 3
+Jan 2010 -0.1795944 -0.7332891  0.9740385
+Feb 2010  0.3152956 -0.4031446 -0.4513895
+Mar 2010  1.3721964 -0.3035223 -0.1567037
 ```
 
 plot.ts 
@@ -117,7 +117,6 @@ Details are available in the package vignette ...
 
 ```r
 require(xts)  
-
 #vignette("xts")  
 ```
 
@@ -209,14 +208,15 @@ type: subsection
 > Simple xts  plot   
 
 
-![alt text](figures/simple.png)
+
+![alt text](figures/simple.png) "Simple chart plot"
 
 *** 
 > Fancy xts plot 
 
 
 
-![alt text](figures/candles.png)
+![alt text](figures/candles.png) "Candle stick chart"
 
 Financial timeseries  
 ========================================================
@@ -273,7 +273,7 @@ type: subsection
 
 
 ```r
-png(filename = "./figures/OMV_chart.png", width = 1440, height = 900)
+png(filename = "./figures/OMV_chart.png", width=1440, height=900)
 chartSeries(OMV, subset="2013::2013", 
             name = "OMV ohlc prices", 
             show.grid = TRUE,  
@@ -300,9 +300,12 @@ TTR for quantmod
 type: section 
 
 
+
 ```r
-require(TTR)
+library(TTR)
 ```
+
+
 `quantmod` depends on `TTR` - which provides numerous indicators that can be added to our plots e.g.:  
 
 - Moving Averages (SMA, EMA, etc.)
@@ -317,7 +320,8 @@ Add more indicators
 type: subsection  
 
 
-![OMV_more_Ind](figures/OMV_more_indicators1.png)
+![OMV_more_Ind](figures/OMV_more_indicators1.png) "add some indicator"
+
 ***
 
 ![alt text](figures/OMV_more_indicators2.png)
@@ -332,8 +336,8 @@ type: subsection
 df <- OMV[ , c("OMV.VI.Adjusted", "OMV.VI.Volume")]
 names(df) <- c("price", "vol")
 #Create return col 
-df$ret <- diff(log(df[, 1])) 
-df <- df[-1, ]#loose the first data-point as return = 0 
+df$ret <- diff(log(df[ , 1]))
+df <- df[-1, ]#loose the first data-point as return is NA  
 head(df, 4)
 ```
 
@@ -344,7 +348,6 @@ head(df, 4)
 2007-01-04 33.30 1180800 -0.024619366
 2007-01-05 32.42 1061200 -0.026781881
 ```
-
 
 ggplot2 cont'd 
 ========================================================
@@ -369,41 +372,28 @@ for ( i in 1:3 ) {
 type: subsection  
 
 
+```
+ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(aes(xintercept = avg), ... 
+```
 
 
 
+![alt text](figures/ggplot.png)
 
+Thank you!  
+========================================================
+type: prompt 
+
+Hope to see you (again) at the next Meetup!  
 
 
 ```
-processing file: Timeseries_Basics.Rpres
-Loading required package: xts
-Loading required package: zoo
-
-Attaching package: 'zoo'
-
-The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric
-
-Loading required package: TTR
-Version 0.4-0 included new data defaults. See ?getSymbols.
-    As of 0.4-0, 'getSymbols' uses env=parent.frame() and
- auto.assign=TRUE by default.
-
- This  behavior  will be  phased out in 0.5-0  when the call  will
- default to use auto.assign=FALSE. getOption("getSymbols.env") and 
- getOptions("getSymbols.auto.assign") are now checked for alternate defaults
-
- This message is shown once per session and may be disabled by setting 
- options("getSymbols.warning4.0"=FALSE). See ?getSymbols for more details.
-Error : .onLoad failed in loadNamespace() for 'tcltk', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Library/Frameworks/R.framework/Versions/3.1/Resources/library/tcltk/libs/tcltk.so':
-  dlopen(/Library/Frameworks/R.framework/Versions/3.1/Resources/library/tcltk/libs/tcltk.so, 10): Library not loaded: /usr/X11/lib/libXft.2.dylib
-  Referenced from: /usr/local/lib/libtk8.6.dylib
-  Reason: image not found
-Quitting from lines 295-297 (Timeseries_Basics.Rpres) 
-Error: package or namespace load failed for 'ggplot2'
-Execution halted
+quartz_off_screen 
+                3 
 ```
+
+
+
+
+
+
