@@ -13,8 +13,13 @@ options(width=80)
 *** 
 **ViennaR - Meetup 2015/I**  
 ***
-![alt text](figures/Rlogo.png)
+![Rlogo](figures/Rlogo.png)
 ***  
+
+Word from our Sponsors 
+========================================================
+[height=4.5in]{R_User_Group_Welcome_Slide.pdf}
+
 
 Overview
 ========================================================
@@ -134,15 +139,21 @@ type: subsection
 > Simple xts  plot   
 
 ```{r, echo = FALSE}
+png("./figures/simple.png", width = 1440, height = 900)
 plot(xts_mtx[ , 4], main = "Simple plot Close prices", 
      cex.main = 2.0)
 ```
+![alt text](figures/simple.png)
+
 *** 
 > Fancy xts plot 
 
 ```{r, echo = FALSE}
+png("./figures/candles.png", width = 1440, height = 900)
 plot(xts_mtx[1:31, ], main="Candle plot", cex.main=2.0, type="candles")
 ```
+
+![alt text](figures/candles.png)
 
 Financial timeseries  
 ========================================================
@@ -186,7 +197,6 @@ chartSeries(OMV, subset="2013::2013",
             show.grid = TRUE,  
             minor.ticks = TRUE,  
             color.vol = TRUE)  
-dev.off()  
 ```  
 
 quantmod plot cont'd
@@ -200,10 +210,13 @@ Add an Indicator (e.g. Boillinger Bands)
 type: subsection
 
 ```{r, echo=FALSE}
+png("./figures/OMV_w_BBands.png", width = 1440, height = 900)
 chartSeries(OMV, subset="2013::2013", 
             name = "OMV ohlc prices", 
             show.grid = TRUE, minor.ticks = TRUE, color.vol = TRUE, TA="addBBands()")
 ```
+![OMV_BBands](figures/OMV_w_BBands.png)
+
 
 TTR for quantmod 
 ========================================================
@@ -221,20 +234,26 @@ require(TTR)
 - Stock symbols 
 - etc.  
 
-reChart and add more indicators 
+Add more indicators 
 ========================================================
 type: subsection  
 
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
-reChart(subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
+png("./figures/OMV_more_indicators1.png")
+chartSeries(OMV, 
+            subset="2014-11-30::2015-02-28", theme=chartTheme("white")) 
 ```  
+![OMV_more_Ind](figures/OMV_more_indicators1.png)
 ***
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+png("./figures/OMV_more_indicators2.png")
 chartSeries(OMV, subset="2014-11-30::2015-02-28", 
             name = "OMV ohlc prices", 
             show.grid = FALSE, minor.ticks = TRUE, color.vol = TRUE, 
-            TA = "addMACD(); addEMA(); addBBands()", theme=chartTheme("white") )  
+            TA = "addMACD(); addEMA(); addBBands()", 
+            theme=chartTheme("white") ) 
 ```
+![alt text](figures/OMV_more_indicators2.png)
 
 Last (not least) a ggplot2 graph
 ========================================================
@@ -278,9 +297,12 @@ cat("ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vli
 ```
 
 ```{r, echo=FALSE, fig.width=7.5,fig.height=4.5,dpi=300,out.width="1440px",height="900px"}
+png("./figures/ggplot.png", width = 1440, height = 900)
 ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + 
   geom_vline(aes(xintercept = avg), linetype="dashed", size=1)
 ```
+![alt text](figures/ggplot.png)
+
 
 
 Thank you!  
@@ -289,6 +311,10 @@ type: prompt
 
 Hope to see you (again) at the next Meetup!  
 
+
+```{r}
+dev.off()
+```
 
 
 

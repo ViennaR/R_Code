@@ -11,8 +11,13 @@ autosize: true
 *** 
 **ViennaR - Meetup 2015/I**  
 ***
-![alt text](figures/Rlogo.png)
+![Rlogo](figures/Rlogo.png)
 ***  
+
+Word from our Sponsors 
+========================================================
+[height=4.5in]{R_User_Group_Welcome_Slide.pdf}
+
 
 Overview
 ========================================================
@@ -64,10 +69,10 @@ head(dat <- matrix(rnorm(48), 12,3), n = 3) # the data
 ```
 
 ```
-           [,1]      [,2]      [,3]
-[1,]  0.4951322 0.7158529 0.6536948
-[2,]  0.3988439 0.6374385 0.8634041
-[3,] -1.5391231 0.9566751 0.8035880
+            [,1]          [,2]       [,3]
+[1,] -0.02863440 -0.2763432185  0.4306116
+[2,] -0.23692876 -1.2651817927 -2.3403424
+[3,]  0.07333624 -0.0006760617  0.3653112
 ```
 
 ```r
@@ -76,10 +81,10 @@ mz <- ts(dat, start = c(2010, 1), end = c(2013,12), frequency = 12)
 ```
 
 ```
-           Series 1  Series 2  Series 3
-Jan 2010  0.4951322 0.7158529 0.6536948
-Feb 2010  0.3988439 0.6374385 0.8634041
-Mar 2010 -1.5391231 0.9566751 0.8035880
+            Series 1      Series 2   Series 3
+Jan 2010 -0.02863440 -0.2763432185  0.4306116
+Feb 2010 -0.23692876 -1.2651817927 -2.3403424
+Mar 2010  0.07333624 -0.0006760617  0.3653112
 ```
 
 plot.ts 
@@ -203,11 +208,15 @@ type: subsection
 
 > Simple xts  plot   
 
-![plot of chunk unnamed-chunk-10](Timeseries_Basics-figure/unnamed-chunk-10-1.png) 
+
+![alt text](figures/simple.png)
+
 *** 
 > Fancy xts plot 
 
-![plot of chunk unnamed-chunk-11](Timeseries_Basics-figure/unnamed-chunk-11-1.png) 
+
+
+![alt text](figures/candles.png)
 
 Financial timeseries  
 ========================================================
@@ -249,13 +258,13 @@ tail(OMV, 3)
 
 ```
            OMV.VI.Open OMV.VI.High OMV.VI.Low OMV.VI.Close OMV.VI.Volume
-2015-03-04       25.49       25.80      25.18        25.40        440900
-2015-03-05       25.40       25.80      25.26        25.62        470100
-2015-03-06       25.70       26.11      25.56        26.11        562300
+2015-03-11       24.89       24.94      24.40        24.67        571900
+2015-03-12       24.67       25.04      24.67        24.86        421100
+2015-03-13       24.95       24.95      24.11        24.34        474600
            OMV.VI.Adjusted
-2015-03-04           25.40
-2015-03-05           25.62
-2015-03-06           26.11
+2015-03-11           24.67
+2015-03-12           24.86
+2015-03-13           24.34
 ```
 
 quantmod plot 
@@ -270,12 +279,6 @@ chartSeries(OMV, subset="2013::2013",
             show.grid = TRUE,  
             minor.ticks = TRUE,  
             color.vol = TRUE)  
-dev.off()  
-```
-
-```
-quartz_off_screen 
-                2 
 ```
 
 quantmod plot cont'd
@@ -288,7 +291,9 @@ Add an Indicator (e.g. Boillinger Bands)
 ========================================================
 type: subsection
 
-![plot of chunk unnamed-chunk-16](Timeseries_Basics-figure/unnamed-chunk-16-1.png) 
+
+![OMV_BBands](figures/OMV_w_BBands.png)
+
 
 TTR for quantmod 
 ========================================================
@@ -307,13 +312,15 @@ require(TTR)
 - Stock symbols 
 - etc.  
 
-reChart and add more indicators 
+Add more indicators 
 ========================================================
 type: subsection  
 
-<img src="Timeseries_Basics-figure/unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="1440px" />
+
+![OMV_more_Ind](figures/OMV_more_indicators1.png)
 ***
-<img src="Timeseries_Basics-figure/unnamed-chunk-19-1.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" width="1440px" />
+
+![alt text](figures/OMV_more_indicators2.png)
 
 Last (not least) a ggplot2 graph
 ========================================================
@@ -362,23 +369,41 @@ for ( i in 1:3 ) {
 type: subsection  
 
 
+
+
+
+
+
+
 ```
-ggplot(df) + geom_histogram(aes(x=vol)) + facet_grid(bucket ~ .) + geom_vline(aes(xintercept = avg), ... 
+processing file: Timeseries_Basics.Rpres
+Loading required package: xts
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Loading required package: TTR
+Version 0.4-0 included new data defaults. See ?getSymbols.
+    As of 0.4-0, 'getSymbols' uses env=parent.frame() and
+ auto.assign=TRUE by default.
+
+ This  behavior  will be  phased out in 0.5-0  when the call  will
+ default to use auto.assign=FALSE. getOption("getSymbols.env") and 
+ getOptions("getSymbols.auto.assign") are now checked for alternate defaults
+
+ This message is shown once per session and may be disabled by setting 
+ options("getSymbols.warning4.0"=FALSE). See ?getSymbols for more details.
+Error : .onLoad failed in loadNamespace() for 'tcltk', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Library/Frameworks/R.framework/Versions/3.1/Resources/library/tcltk/libs/tcltk.so':
+  dlopen(/Library/Frameworks/R.framework/Versions/3.1/Resources/library/tcltk/libs/tcltk.so, 10): Library not loaded: /usr/X11/lib/libXft.2.dylib
+  Referenced from: /usr/local/lib/libtk8.6.dylib
+  Reason: image not found
+Quitting from lines 295-297 (Timeseries_Basics.Rpres) 
+Error: package or namespace load failed for 'ggplot2'
+Execution halted
 ```
-
-<img src="Timeseries_Basics-figure/unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="1440px" />
-
-
-Thank you!  
-========================================================
-type: prompt 
-
-Hope to see you (again) at the next Meetup!  
-
-
-
-
-
-
-
-
