@@ -94,7 +94,6 @@ plot.ts
 plot(mz, lty=1:3, plot.type = 'single')
 ```
 
-
 ![simple_ts_plot](figures/plot_ts.png)
 
 In need of new class(es)/package(s)   
